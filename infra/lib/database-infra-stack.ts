@@ -11,7 +11,7 @@ export class DatabaseInfraStack extends cdk.Stack {
     const vpc = new ec2.Vpc(this, 'MyVpc', { maxAzs: 3 });
 
     // Define the MySQL database
-    new rds.DatabaseInstance(this, 'MySQLDatabase', {
+    const database = new rds.DatabaseInstance(this, 'MySQLDatabase', {
       engine: rds.DatabaseInstanceEngine.mysql({
         version: rds.MysqlEngineVersion.VER_8_0_21,
       }),
@@ -21,5 +21,10 @@ export class DatabaseInfraStack extends cdk.Stack {
       deletionProtection: false, // ONLY FOR DEV/TEST
     });
 
+    new cdk.CfnOutput(this, 'DatabaseEndpoint', {
+        value: database.dbInstanceEndpointAddress,
+        description: 'The endpoint address of the RDS instance',
+        exportName: 'RDSInstanceEndpoint'
+    });
   }
 }
