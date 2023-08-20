@@ -1,6 +1,6 @@
-# Welcome to your CDK TypeScript project
+# Welcome to Infra CDK TypeScript project
 
-This is a blank project for CDK development with TypeScript.
+This is a CDK project for deploying necessarry infrastructure for the workshop.
 
 The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
@@ -15,4 +15,4 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
 ## Deploying resources
 
-* `cdk deploy --stack mysqldatabase`       emits the synthesized CloudFormation template
+* `cdk deploy --stack mysqldatabase`       Creates MySQL Database Instance on Amazon RDS
