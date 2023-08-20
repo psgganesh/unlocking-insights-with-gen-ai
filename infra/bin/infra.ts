@@ -5,4 +5,4 @@ import { DatabaseInfraStack } from '../lib/database-infra-stack';
 
 const app = new cdk.App();
 
-new DatabaseInfraStack(app, 'DatabaseStack');
+new DatabaseInfraStack(app, 'mysqldatabase');
