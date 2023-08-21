@@ -58,7 +58,7 @@ export class DatabaseInfraStack extends cdk.Stack {
 
     const database = new rds.DatabaseInstance(this, 'Database', {
       engine: rds.DatabaseInstanceEngine.mysql({
-        version: rds.MysqlEngineVersion.VER_8_0_21,
+        version: rds.MysqlEngineVersion.VER_8_0_33,
       }),
       vpc: vpc,
       publiclyAccessible: true,
