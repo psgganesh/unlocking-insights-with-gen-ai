@@ -4,8 +4,11 @@ import * as rds from 'aws-cdk-lib/aws-rds';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as secretsmanager from 'aws-cdk-lib/aws-secretsmanager';
 
+
 export class DatabaseInfraStack extends cdk.Stack {
   public vpcId : string
+  public region : string
+  public accountId : string
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
@@ -34,6 +37,10 @@ export class DatabaseInfraStack extends cdk.Stack {
         },
       ],
     });
+    //get vpcId, accountId, region
+    this.vpcId = vpc.vpcId
+    this.accountId = cdk.Stack.of(this).account
+    this.region = cdk.Stack.of(this).region
 
     // Cloud9 EC2 CIDR block - you would obtain this dynamically, 
     // but for the sake of this example, let's assume a placeholder CIDR
@@ -83,4 +90,5 @@ export class DatabaseInfraStack extends cdk.Stack {
       description: 'The security group ID of the RDS MySQL instance',
     });
   }
+ 
 }
