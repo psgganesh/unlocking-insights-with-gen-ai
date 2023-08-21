@@ -9,7 +9,7 @@ export class DatabaseInfraStack extends cdk.Stack {
     super(scope, id, props);
 
     // You might want to fetch the default VPC in which Cloud9 is launched
-    // Create the VPC with a 10.1.0.0/16 CIDR
+    // Create the VPC with a 10.0.0.0/16 CIDR
     const vpc = new ec2.Vpc(this, 'vpc', {
       vpcName: 'DataSources-Dedicated-VPC',
       ipAddresses: ec2.IpAddresses.cidr('10.0.0.0/16'),
@@ -51,7 +51,7 @@ export class DatabaseInfraStack extends cdk.Stack {
         version: rds.MysqlEngineVersion.VER_8_0_33,
       }),
       vpc: vpc,
-      publiclyAccessible: true,
+      publiclyAccessible: false,
       credentials: mysqlCredentials,
       removalPolicy: cdk.RemovalPolicy.DESTROY, // Careful! This means the database is destroyed when the stack is deleted
       deleteAutomatedBackups: true,
