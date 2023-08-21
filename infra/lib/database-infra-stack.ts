@@ -10,15 +10,15 @@ export class DatabaseInfraStack extends cdk.Stack {
 
     // You might want to fetch the default VPC in which Cloud9 is launched
     // Create the VPC with a 10.1.0.0/16 CIDR
-    const vpc = new ec2.Vpc(this, 'DB VPC', {
+    const vpc = new ec2.Vpc(this, 'vpc', {
       vpcName: 'DataSources-Dedicated-VPC',
       ipAddresses: ec2.IpAddresses.cidr('10.0.0.0/16'),
-      maxAzs: 3,
-      natGateways: 2,
+      maxAzs: 1,
+      natGateways: 1,
       subnetConfiguration: [
         {
           cidrMask: 24,
-          name: 'Private1',
+          name: 'private',
           subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
         }
       ],
