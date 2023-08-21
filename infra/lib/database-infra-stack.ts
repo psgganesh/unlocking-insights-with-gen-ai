@@ -58,6 +58,8 @@ export class DatabaseInfraStack extends cdk.Stack {
     });
 
     // Allow connection only from Cloud9 CIDR
+    database.connections.allowFrom(ec2.Peer.ipv4(cloud9Cidr), ec2.Port.udp(53));
+    database.connections.allowFrom(ec2.Peer.ipv4(cloud9Cidr), ec2.Port.tcp(53));
     database.connections.allowFrom(ec2.Peer.ipv4(cloud9Cidr), ec2.Port.tcp(3306));
 
     new cdk.CfnOutput(this, 'DatabaseEndpoint', {
