@@ -5,6 +5,7 @@ import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as secretsmanager from 'aws-cdk-lib/aws-secretsmanager';
 
 export class DatabaseInfraStack extends cdk.Stack {
+  public vpcId : string
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
