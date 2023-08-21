@@ -61,7 +61,7 @@ export class DatabaseInfraStack extends cdk.Stack {
         version: rds.MysqlEngineVersion.VER_8_0_33,
       }),
       vpc: vpc,
-      publiclyAccessible: false,
+      publiclyAccessible: true,
       credentials: mysqlCredentials,
       removalPolicy: cdk.RemovalPolicy.DESTROY, // Careful! This means the database is destroyed when the stack is deleted
       deleteAutomatedBackups: true,
