@@ -13,19 +13,24 @@ export class DatabaseInfraStack extends cdk.Stack {
     const vpc = new ec2.Vpc(this, 'vpc', {
       vpcName: 'DataSources-Dedicated-VPC',
       ipAddresses: ec2.IpAddresses.cidr('10.0.0.0/16'),
-      maxAzs: 1,
-      natGateways: 1,
+      maxAzs: 3,
+      natGateways: 2,
       subnetConfiguration: [
         {
           cidrMask: 24,
-          name: 'public',
+          name: 'Public',
           subnetType: ec2.SubnetType.PUBLIC,
         },
         {
           cidrMask: 24,
-          name: 'private',
+          name: 'Private1',
           subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
-        }
+        },
+        {
+          cidrMask: 24,
+          name: 'Private2',
+          subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
+        },
       ],
     });
 
