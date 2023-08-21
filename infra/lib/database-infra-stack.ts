@@ -44,7 +44,8 @@ export class DatabaseInfraStack extends cdk.Stack {
 
     // Cloud9 EC2 CIDR block - you would obtain this dynamically, 
     // but for the sake of this example, let's assume a placeholder CIDR
-    const cloud9Cidr = this.node.tryGetContext('cloud9Cidr') || '0.0.0.0/0';
+    // By default you can use the default CIDR VPC range
+    const cloud9Cidr = this.node.tryGetContext('cloud9Cidr') || '172.31.0.0/16';
 
     // Create a secret for RDS username and password
     const mysqlUsername = 'dbadmin';
@@ -69,7 +70,7 @@ export class DatabaseInfraStack extends cdk.Stack {
         version: rds.MysqlEngineVersion.VER_8_0_33,
       }),
       vpc: vpc,
-      publiclyAccessible: true,
+      publiclyAccessible: false,
       credentials: mysqlCredentials,
       removalPolicy: cdk.RemovalPolicy.DESTROY, // Careful! This means the database is destroyed when the stack is deleted
       deleteAutomatedBackups: true,
