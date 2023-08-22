@@ -12,7 +12,7 @@ const environment = {
 
 const rdsStack = new DatabaseInfraStack(app, 'mysqldatabase', environment);
 
-const cloud9VpcId = app.node.tryGetContext('cloud9Cidr');
+const cloud9VpcId = app.node.tryGetContext('cloud9Cidr') || '172.31.0.0/16';
 
 new PeeringInfraStack(app, 'dbnetwork', {
     REGION: rdsStack.region,
