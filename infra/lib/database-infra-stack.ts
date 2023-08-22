@@ -6,16 +6,13 @@ import * as secretsmanager from 'aws-cdk-lib/aws-secretsmanager';
 
 
 export class DatabaseInfraStack extends cdk.Stack {
-  public vpcId : string
-  public region : string
-  public accountId : string
   public vpc : ec2.Vpc
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
     // You might want to fetch the default VPC in which Cloud9 is launched
     // Create the VPC with a 10.0.0.0/16 CIDR
-    const vpc = new ec2.Vpc(this, 'vpc', {
+    this.vpc = new ec2.Vpc(this, 'vpc', {
       vpcName: 'DataSources-Dedicated-VPC',
       ipAddresses: ec2.IpAddresses.cidr('10.0.0.0/16'),
       maxAzs: 3,
@@ -38,10 +35,6 @@ export class DatabaseInfraStack extends cdk.Stack {
         },
       ],
     });
-    //get vpcId, accountId, region
-    this.vpcId = vpc.vpcId
-    this.accountId = cdk.Stack.of(this).account
-    this.region = cdk.Stack.of(this).region
 
     // Cloud9 EC2 CIDR block - you would obtain this dynamically, 
     // but for the sake of this example, let's assume a placeholder CIDR
@@ -70,7 +63,7 @@ export class DatabaseInfraStack extends cdk.Stack {
       engine: rds.DatabaseInstanceEngine.mysql({
         version: rds.MysqlEngineVersion.VER_8_0_33,
       }),
-      vpc: vpc,
+      vpc: this.vpc,
       publiclyAccessible: false,
       credentials: mysqlCredentials,
       removalPolicy: cdk.RemovalPolicy.DESTROY, // Careful! This means the database is destroyed when the stack is deleted
