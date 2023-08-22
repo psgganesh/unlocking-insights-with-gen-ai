@@ -11,12 +11,13 @@ export interface VpcPeeringProps extends cdk.StackProps {
 }
 
 export class PeeringInfraStack extends cdk.Stack {
+    public peering : CfnVPCPeeringConnection
     constructor(scope: Construct, id: string, props: VpcPeeringProps) {
         super(scope, id, props);
         this.createPeering(id, props)
     }
     private createPeering(id : string, props : VpcPeeringProps){
-        const peering = new CfnVPCPeeringConnection(this, id, {
+        this.peering = new CfnVPCPeeringConnection(this, id, {
             vpcId: props.VPC_ID,
             peerVpcId: props.PEER_VPC_ID,
             peerOwnerId: props.PEER_OWNER_ID,

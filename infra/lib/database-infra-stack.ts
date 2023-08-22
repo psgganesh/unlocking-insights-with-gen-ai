@@ -9,6 +9,7 @@ export class DatabaseInfraStack extends cdk.Stack {
   public vpcId : string
   public region : string
   public accountId : string
+  public vpc : ec2.Vpc
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
@@ -33,7 +34,7 @@ export class DatabaseInfraStack extends cdk.Stack {
         {
           cidrMask: 24,
           name: 'Private2',
-          subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
+          subnetType: ec2.SubnetType.PRIVATE_ISOLATED,
         },
       ],
     });
@@ -45,7 +46,7 @@ export class DatabaseInfraStack extends cdk.Stack {
     // Cloud9 EC2 CIDR block - you would obtain this dynamically, 
     // but for the sake of this example, let's assume a placeholder CIDR
     // By default you can use the default CIDR VPC range
-    const cloud9Cidr = this.node.tryGetContext('cloud9Cidr') || '172.31.0.0/16';
+    // const cloud9Cidr = this.node.tryGetContext('cloud9Cidr') || '172.31.0.0/16';
 
     // Create a secret for RDS username and password
     const mysqlUsername = 'dbadmin';
@@ -74,12 +75,17 @@ export class DatabaseInfraStack extends cdk.Stack {
       credentials: mysqlCredentials,
       removalPolicy: cdk.RemovalPolicy.DESTROY, // Careful! This means the database is destroyed when the stack is deleted
       deleteAutomatedBackups: true,
+      vpcSubnets: {
+        subnetType: ec2.SubnetType.PRIVATE_ISOLATED
+      },
+      storageType: rds.StorageType.GP3,
+      instanceType: ec2.InstanceType.of(ec2.InstanceClass.M7G, ec2.InstanceSize.LARGE)
     });
 
     // Allow connection only from Cloud9 CIDR
-    database.connections.allowFrom(ec2.Peer.ipv4(cloud9Cidr), ec2.Port.udp(53));
-    database.connections.allowFrom(ec2.Peer.ipv4(cloud9Cidr), ec2.Port.tcp(53));
-    database.connections.allowFrom(ec2.Peer.ipv4(cloud9Cidr), ec2.Port.tcp(3306));
+    // database.connections.allowFrom(ec2.Peer.ipv4(cloud9Cidr), ec2.Port.udp(53));
+    // database.connections.allowFrom(ec2.Peer.ipv4(cloud9Cidr), ec2.Port.tcp(53));
+    database.connections.allowFrom(ec2.Peer.anyIpv4(), ec2.Port.tcp(3306));
 
     new cdk.CfnOutput(this, 'DatabaseEndpoint', {
       value: database.dbInstanceEndpointAddress,
