@@ -44,7 +44,7 @@ const peeringDefault = new PeeringInfraStack(app, 'dbnetwork', {
     PEER_OWNER_ID: ACCOUNT_ID,
     REGION: REGION,
     VPC_ID: defaultVpc.vpc.vpcId, //cloud9 VPC ID
-    PEER_VPC_ID: rdsStack.vpcId,
+    PEER_VPC_ID: rdsStack.vpc.vpcId,
     
 });
 new RdsRtbStack(app, 'rds-cloud9-rtb',{
