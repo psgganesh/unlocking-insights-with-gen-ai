@@ -12,7 +12,7 @@ let REGION : string
 let ACCOUNT_ID : string
 
 if(!process.env.REGION || !process.env.ACCOUNT_ID){
-  console.log("Missing Environment Varialbes! Please check the guide (../import-vpc-guide.md)!")
+  console.log("Missing Environment Varialbes for REGION ACCOUNT_ID!")
   //import-vpc-guide.md
   //or run below command
   //chmod +x run ../run.sh
