@@ -72,7 +72,7 @@ export class DatabaseInfraStack extends cdk.Stack {
         subnetType: ec2.SubnetType.PRIVATE_ISOLATED
       },
       storageType: rds.StorageType.GP3,
-      instanceType: ec2.InstanceType.of(ec2.InstanceClass.M7G, ec2.InstanceSize.LARGE)
+      instanceType: ec2.InstanceType.of(ec2.InstanceClass.M6I, ec2.InstanceSize.LARGE)
     });
 
     // Allow connection only from Cloud9 CIDR
