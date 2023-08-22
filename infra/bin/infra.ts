@@ -10,7 +10,7 @@ const environment = {
     env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: process.env.CDK_DEFAULT_REGION },
 }
 
-const rdsStack = new DatabaseInfraStack(app, 'mysqldatabase', environment);
+const rdsStack = new DatabaseInfraStack(app, 'mysqldatabase', {});
 
 const cloud9VpcId = app.node.tryGetContext('cloud9Cidr') || '172.31.0.0/16';
 
